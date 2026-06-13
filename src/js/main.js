@@ -19,21 +19,51 @@ render();
 
 function render(){
     switch(rota){
-    case '#inicio':
-        app.innerHTML = home;
-    break;
-    case '#sobre':
-        app.innerHTML = sobre;
-    break;
-    case '#contato':
-        app.innerHTML = contato;
-    break;
-    case '#servicos':
-        app.innerHTML = servicos;
-    break;
-    default:
-        app.innerHTML = `<h1> Página não encontrada </h1>`;
+        case '#inicio':
+            app.innerHTML = home;
+            capturaFormulario();
+        break;
+        case '#sobre':
+            app.innerHTML = sobre;
+        break;
+        case '#contato':
+            app.innerHTML = contato;
+        break;
+        case '#servicos':
+            app.innerHTML = servicos;
+        break;
+        default:
+            app.innerHTML = `<h1> Página não encontrada </h1>`;
+    }
 }
+
+function capturaFormulario() {
+    const formulario = document.getElementById('formulario-fila');
+    const lista = document.getElementById('lista-de-pessoas');
+    lista.style.display = "flex";
+    lista.style.flexDirection = "column";
+    lista.style.listStyle = "none";
+    formulario.addEventListener('submit', (event) => {
+        event.preventDefault();
+        //console.log(event);
+        //const idadeInput = event.target.elements['idade'];
+        const idade = document.getElementById('idade');
+        if(idade.value >= 65){
+            console.log("Pessoa com prioridade!");
+            filaDoBanco.unshift(idade.value);
+        }else{
+            console.log("Pessoa sem prioridade!");
+            filaDoBanco.push(idade.value);
+        }
+        idade.value = "";
+        lista.innerHTML = "";
+        filaDoBanco.forEach((item)=> {
+            const li = document.createElement('li');
+            li.innerHTML = "Pessoa com idade: " + item + " anos";
+            lista.appendChild(li);
+            console.log(filaDoBanco);
+        });
+    });
 }
 
 // console.log("contagem regressiva");
